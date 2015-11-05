@@ -10,7 +10,8 @@ box_height=55;
 
 drain_outer_d=7;
 drain_inner_d=4;
-drain_h=9;
+bean_drain_h=9;
+lentil_drain_h=4;
 drain_p=13.5;
 
 syphon_tip_outer_d=12;
@@ -222,7 +223,7 @@ module shape(cut=0)
 }
 
 
-module structures()
+module structures(drain_h)
 {
 	difference()
 	{
@@ -282,7 +283,7 @@ module grid(ah=0,pt=0)
 	translate([-box_width/2+box_width/3.33+thickness,0,box_height/2+ah])cube(size=[1.5+pt,box_width-thickness+pt,box_height-10],center=true);
 }
 
-module syphon()
+module syphon(drain_h)
 {
 	difference()
 	{
@@ -324,19 +325,19 @@ module syphon()
 
 }
 
-module container()
+module container(drain_h)
 {
 	difference()
 	{
-		shape();
+		shape(drain_h);
 		union()
 		{
-			translate([0,0,51])scale([1.0015,1.0015,1])shape(cut=1);
+			translate([0,0,51])scale([1.0015,1.0015,1])shape(drain_h, cut=1);
 		// Draintube Hole
 		translate([-box_width/2+thickness+drain_p,box_width/2-thickness-drain_p,drain_h/2])cylinder(h=drain_h+thickness+10,d=drain_inner_d,center=true);
 	}
 	}
-	structures();
+	structures(drain_h);
 }
 
 module lid()
@@ -426,9 +427,9 @@ module camlid()
 // Select a module to render
 
 //lid();
-camlid();
-//container();
+//camlid();
+container(lbeam_drain_h);
 //bottom();
 //grid();
-//translate([-box_width/2+thickness+drain_p,box_width/2-thickness-drain_p,0])syphon();
+//translate([-box_width/2+thickness+drain_p,box_width/2-thickness-drain_p,0])syphon(bean_drain_h);
 //brim();
